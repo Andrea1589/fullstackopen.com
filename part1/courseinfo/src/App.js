@@ -1,57 +1,78 @@
 //Component 1
 const Header = (props) => {
+  console.log(props.name)
   return (
     <div>
-      <h1>{props.course}</h1>
+      <h1>{props.name}</h1>
     </div>
   )  
 }
 
 //Component 2
-const Content = (props) => {
+const Content = ({parts}) => {
+  console.log(parts)
   return (
     <>
       <ol>
-        <Info part={props.part1} exercises={props.exercises1}/>
-        <Info part={props.part2} exercises={props.exercises2}/>
-        <Info part={props.part3} exercises={props.exercises3}/>
+      <Info part={parts[0]}/>
+      <Info part={parts[1]}/>
+      <Info part={parts[2]}/>
       </ol>
     </>
   )
 }
 
 //Component 3
-const Info = (props) => {
+const Info = ({part}) => {
+  
   return (
     <>
-      <li>{props.part} {props.exercises}</li>
+      <li>{part.name} ({part.exercises}). <br></br> <em>{part.intro()}</em></li>
     </>
   )
 }
 
 //Component 4
-const Total = (props) => {
+const Total = ({parts}) => {
   return (
     <>
-      <p>Number of exercises {props.exercises1 + props.exercises2 + props.exercises3}</p>
+      <h3>Number of exercises: {parts[0].exercises + parts[1].exercises + parts[2].exercises}</h3>
     </>
   )
 }
 
 const App = () => {
-  const course = 'Half Stack application development'
-  const part1 = 'Fundamentals of React'
-  const exercises1 = 10
-  const part2 = 'Using props to pass data'
-  const exercises2 = 7
-  const part3 = 'State of a component'
-  const exercises3 = 14
- 
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10,
+        intro: function () {
+          return('The course "' + this.name + '" has ' + this.exercises + ' exercises.'  )
+        }
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7,
+        intro: function () {
+          return ('The course "' + this.name + '" has ' + this.exercises + ' exercises.'  )
+        }
+      },
+      {
+        name: 'State of a component',
+        exercises: 14,
+        intro: function () {
+          return ('The course "' + this.name + '" has ' + this.exercises + ' exercises.'  )
+        }
+      }
+    ]
+  }
   return (
     <div>
-      <Header course={course} />
-      <Content part1={part1} exercises1={exercises1} part2={part2} exercises2={exercises2} part3={part3} exercises3={exercises3} />
-      <Total exercises1={exercises1} exercises2={exercises2} exercises3={exercises3} />
+      <Header name={course.name} />
+      <Content parts={course.parts} />
+      <Total parts={course.parts} />
     </div>
   )
 
